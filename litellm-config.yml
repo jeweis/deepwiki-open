@@ -1,23 +1,16 @@
 model_list:
-  # -----------------------
-  # Chat / Generation models
-  # -----------------------
-  - model_name: qwen3:1.7b #Can be named anything - qwen3-1.7b
+  - model_name: deepwiki-chat
     litellm_params:
-      model: ollama/qwen3:1.7b
-      api_base: http://host.docker.internal:11434
-      api_key: "not-needed"
+      model: os.environ/DEEPWIKI_TEXT_UPSTREAM_MODEL
+      api_base: os.environ/DEEPWIKI_TEXT_UPSTREAM_BASE_URL
+      api_key: os.environ/DEEPWIKI_TEXT_UPSTREAM_API_KEY
 
-  # -----------------------
-  # Embedding models
-  # -----------------------
-  - model_name: nomic-embed-text
+  - model_name: deepwiki-embedding
     litellm_params:
-      model: ollama/nomic-embed-text
-      api_base: http://host.docker.internal:11434
-      api_key: "not-needed"
+      model: os.environ/DEEPWIKI_EMBEDDING_UPSTREAM_MODEL
+      api_base: os.environ/DEEPWIKI_EMBEDDING_UPSTREAM_BASE_URL
+      api_key: os.environ/DEEPWIKI_EMBEDDING_UPSTREAM_API_KEY
 
-# This overrides the one in the docker-compose file
 general_settings:
   database_url: postgres://litellm:litellm_password@db:5432/litellm
 

@@ -18,13 +18,8 @@ services:
       - "4000:4000"
     volumes:
       - ./litellm-config.yml:/app/config.yaml
-    environment:
-      # Use env. variable LITELLM_MASTER_KEY
-      # otherwise default to sk-1234
-      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-1234}
-    # Using from litellm-config.yml
-    #environment:
-    #  DATABASE_URL: postgres://litellm:litellm_password@db:5432/litellm
+    env_file:
+      - docker-compose-litellm.env
     command: [ "--config", "/app/config.yaml", "--port", "4000" ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -47,12 +42,10 @@ services:
       - SERVER_BASE_URL=http://localhost:${PORT:-8001}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - LOG_FILE_PATH=${LOG_FILE_PATH:-api/logs/application.log}
-      # For LiteLLM
-      - LITELLM_BASE_URL=${LITELLM_BASE_URL}
-      - LITELLM_API_KEY=${LITELLM_API_KEY}
+      - DEEPWIKI_EMBEDDER_TYPE=${DEEPWIKI_EMBEDDER_TYPE:-openai}
     volumes:
-      - ~/.adalflow:/root/.adalflow      # Persist repository and embedding data
-      - ./api/logs:/app/api/logs          # Persist log files across container restarts
+      - deepwiki_data:/root/.adalflow      # Persist repository and embedding data
+      - deepwiki_logs:/app/api/logs        # Persist log files across container restarts
     # Resource limits for docker-compose up (not Swarm mode)
     mem_limit: 6g
     mem_reservation: 2g
@@ -68,3 +61,7 @@ services:
 
 volumes:
   deepwiki_litellm_db:
+  deepwiki_data:
+    name: deepwiki-open_deepwiki_data
+  deepwiki_logs:
+    name: deepwiki-open_deepwiki_logs

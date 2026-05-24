@@ -3,8 +3,7 @@
     "client_class": "OpenAIClient",
     "batch_size": 500,
     "model_kwargs": {
-      "model": "text-embedding-3-small",
-      "dimensions": 256,
+      "model": "deepwiki-embedding",
       "encoding_format": "float"
     }
   },
