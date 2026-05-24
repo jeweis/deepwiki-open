@@ -1,17 +1,4 @@
 services:
-  db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: litellm
-      POSTGRES_USER: litellm
-      # Use env. variable LITELLM_DB_PASSWORD
-      # otherwise default to litellm_password
-      POSTGRES_PASSWORD: ${LITELLM_DB_PASSWORD:-litellm_password}
-    ports:
-      - "5432:5432"
-    volumes:
-      - deepwiki_litellm_db:/var/lib/postgresql/data
-
   litellm:
     image: ghcr.io/berriai/litellm:v1.83.10-stable
     ports:
@@ -23,8 +10,6 @@ services:
     command: [ "--config", "/app/config.yaml", "--port", "4000" ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
-      - db
 
   deepwiki:
     image: deepwiki-litellm  # Using image name to show it depends on LiteLLM
@@ -60,7 +45,6 @@ services:
       - litellm
 
 volumes:
-  deepwiki_litellm_db:
   deepwiki_data:
     name: deepwiki-open_deepwiki_data
   deepwiki_logs:
