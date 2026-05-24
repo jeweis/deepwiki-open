@@ -11,9 +11,6 @@ model_list:
       api_base: os.environ/DEEPWIKI_EMBEDDING_UPSTREAM_BASE_URL
       api_key: os.environ/DEEPWIKI_EMBEDDING_UPSTREAM_API_KEY
 
-general_settings:
-  database_url: postgres://litellm:litellm_password@db:5432/litellm
-
 litellm_settings:
   set_verbose: true
   drop_params: true

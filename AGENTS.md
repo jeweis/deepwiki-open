@@ -2,13 +2,12 @@
 
 ## Docker 部署：DeepWiki + LiteLLM
 
-推荐使用 `docker-compose-litellm.yml` 部署。该部署方式会启动三个容器：
+推荐使用 `docker-compose-litellm.yml` 部署。该部署方式会启动两个容器：
 
 - `deepwiki`：DeepWiki API 和前端服务
 - `litellm`：OpenAI-compatible 模型网关
-- `db`：LiteLLM 使用的 PostgreSQL
 
-LiteLLM 应该作为独立容器运行，不要合并进 DeepWiki 容器。DeepWiki 只连接 LiteLLM 暴露的 OpenAI-compatible API：
+LiteLLM 只作为轻量转发网关运行，不使用数据库；它应该作为独立容器运行，不要合并进 DeepWiki 容器。DeepWiki 只连接 LiteLLM 暴露的 OpenAI-compatible API：
 
 ```env
 OPENAI_BASE_URL=http://litellm:4000/v1
